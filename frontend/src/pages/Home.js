@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import StarRating from "../components/StarRating";
 
 const Home = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -235,15 +236,15 @@ const Home = () => {
             <span className="input-group-text bg-white border-end-0">
               <i className="fas fa-star text-success"></i>
             </span>
-            <input
-              type="number"
-              className="form-control border-start-0"
-              placeholder="Minimum Rating"
-              min="0"
-              max="5"
-              step="0.1"
-              onChange={(e) => setRating(e.target.value)}
-            />
+            <div className="form-control border-start-0">
+              <StarRating
+                rating={rating || 0}
+                onRatingChange={(value) => setRating(value)}
+                size="sm"
+                interactive={true}
+                readOnly={false}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -257,11 +258,13 @@ const Home = () => {
           >
             <div className="card h-100 shadow-sm border-0">
               <div className="card-header bg-success text-white py-3">
-                <h5 className="card-title mb-0">
-                  <Link to={`/restaurants/${restaurant._id}`} className="text-white text-decoration-none">
-                    {restaurant.name}
-                  </Link>
-                </h5>
+                <div className="d-flex justify-content-between align-items-center">
+                  <h5 className="card-title mb-0">
+                    <Link to={`/restaurants/${restaurant._id}`} className="text-white text-decoration-none">
+                      {restaurant.name}
+                    </Link>
+                  </h5>
+                </div>
               </div>
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-3">
@@ -276,11 +279,12 @@ const Home = () => {
                     </p>
                   </div>
                   <div className="text-end">
-                    <div className="d-flex align-items-center">
-                      <i className="fas fa-star text-warning me-1"></i>
-                      <span className="fw-bold">{restaurant.rating}</span>
-                      <span className="text-muted ms-1">/ 5</span>
-                    </div>
+                    <StarRating
+                      rating={restaurant.rating}
+                      readOnly={true}
+                      size="sm"
+                      interactive={false}
+                    />
                   </div>
                 </div>
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import StarRating from "../components/StarRating";
 
 const AddRestaurant = () => {
   const [restaurant, setRestaurant] = useState({
@@ -10,7 +11,7 @@ const AddRestaurant = () => {
       city: "",
       district: ""
     },
-    rating: "",
+    rating: 0,
     menu: []
   });
 
@@ -203,7 +204,7 @@ const AddRestaurant = () => {
             city: restaurant.location.city,
             district: restaurant.location.district
           },
-          rating: parseFloat(restaurant.rating),
+          rating: restaurant.rating,
           menu: restaurant.menu.map(item => ({
             ...item,
             spiceLevel: parseInt(item.spiceLevel),
@@ -273,18 +274,16 @@ const AddRestaurant = () => {
           {errors.location.district && <div className="invalid-feedback">{errors.location.district}</div>}
         </div>
         <div className="mb-3">
-          <label>Rating (0-5)</label>
-          <input 
-            type="number" 
-            className={`form-control ${errors.rating ? 'is-invalid' : ''}`}
-            name="rating" 
-            value={restaurant.rating}
-            min="0" 
-            max="5" 
-            onChange={handleChange} 
-            required 
-          />
-          {errors.rating && <div className="invalid-feedback">{errors.rating}</div>}
+          <label>Rating</label>
+          <div className="mt-2">
+            <StarRating
+              rating={restaurant.rating}
+              onRatingChange={(value) => setRestaurant(prev => ({ ...prev, rating: value }))}
+              size="lg"
+              interactive={true}
+            />
+          </div>
+          {errors.rating && <div className="invalid-feedback d-block">{errors.rating}</div>}
         </div>
 
         <h4>Menu Items</h4>

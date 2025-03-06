@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, Outlet } from "react-router-dom";
+import StarRating from "../components/StarRating";
 
 const RestaurantList = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -37,56 +38,105 @@ const RestaurantList = () => {
   );
 
   return (
-    <div className="row">
-      <div className="col-md-6">
-        <h2>Restaurant List</h2>
-
-        <div className="mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search by name, city, or district..."
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+    <div className="container py-4">
+      <div className="row justify-content-center mb-5">
+        <div className="col-md-8 text-center">
+          <h1 className="display-4 mb-3" style={{ color: '#2E7D32' }}>Restaurant Management</h1>
         </div>
-
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Location</th>
-              <th>Rating</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredRestaurants.map((restaurant) => (
-              <tr key={restaurant._id}>
-                <td>
-                  <Link to={`/restaurants/${restaurant._id}`}>{restaurant.name}</Link>
-                </td>
-                <td>
-                  {restaurant.location.city}
-                  {restaurant.location.district && `, ${restaurant.location.district}`}
-                  {restaurant.location.address && ` - ${restaurant.location.address}`}
-                </td>
-                <td>{restaurant.rating}</td>
-                <td>
-                  <Link className="btn btn-warning btn-sm mx-2" to={`/edit/${restaurant._id}`}>
-                    Edit
-                  </Link>
-                  <button className="btn btn-danger btn-sm" onClick={() => deleteRestaurant(restaurant._id)}>
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
 
-      <div className="col-md-6">
-        <Outlet />
+      <div className="row">
+        <div className="col-md-8 mx-auto">
+          <div className="card shadow-sm border-0">
+            <div className="card-body">
+              <div className="mb-4">
+                <div className="input-group">
+                  <span className="input-group-text bg-white border-end-0">
+                    <i className="fas fa-search text-success"></i>
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control border-start-0"
+                    placeholder="Search by name, city, or district..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="table-responsive">
+                <table className="table table-hover align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th className="border-0">Name</th>
+                      <th className="border-0">Location</th>
+                      <th className="border-0">Rating</th>
+                      <th className="border-0 text-end">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredRestaurants.map((restaurant) => (
+                      <tr key={restaurant._id}>
+                        <td className="border-0">
+                          <Link to={`/restaurants/${restaurant._id}`} className="text-decoration-none text-dark">
+                            {restaurant.name}
+                          </Link>
+                        </td>
+                        <td className="border-0">
+                          <div className="d-flex align-items-center">
+                            <i className="fas fa-map-marker-alt text-success me-2"></i>
+                            <span>
+                              {restaurant.location.city}
+                              {restaurant.location.district && `, ${restaurant.location.district}`}
+                            </span>
+                          </div>
+                          <small className="text-muted">
+                            <i className="fas fa-map text-success me-2"></i>
+                            {restaurant.location.address}
+                          </small>
+                        </td>
+                        <td className="border-0">
+                          <StarRating
+                            rating={restaurant.rating}
+                            readOnly={true}
+                            size="sm"
+                            interactive={false}
+                          />
+                        </td>
+                        <td className="border-0 text-end">
+                          <Link 
+                            to={`/edit/${restaurant._id}`} 
+                            className="btn btn-light btn-sm me-2"
+                            style={{ 
+                              backgroundColor: '#f8f9fa',
+                              border: '1px solid #dee2e6',
+                              color: '#2E7D32'
+                            }}
+                          >
+                            <i className="fas fa-edit me-1"></i>
+                            Edit
+                          </Link>
+                          <button 
+                            className="btn btn-light btn-sm"
+                            onClick={() => deleteRestaurant(restaurant._id)}
+                            style={{ 
+                              backgroundColor: '#f8f9fa',
+                              border: '1px solid #dee2e6',
+                              color: '#dc3545'
+                            }}
+                          >
+                            <i className="fas fa-trash me-1"></i>
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

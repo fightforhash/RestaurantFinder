@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import StarRating from "../components/StarRating";
 
 const EditRestaurant = () => {
   const { id } = useParams();
@@ -293,18 +294,16 @@ const EditRestaurant = () => {
           {errors.location.district && <div className="invalid-feedback">{errors.location.district}</div>}
         </div>
         <div className="mb-3">
-          <label>Rating (0-5)</label>
-          <input 
-            type="number" 
-            className={`form-control ${errors.rating ? 'is-invalid' : ''}`}
-            name="rating" 
-            value={restaurant.rating} 
-            min="0" 
-            max="5" 
-            onChange={handleChange} 
-            required 
-          />
-          {errors.rating && <div className="invalid-feedback">{errors.rating}</div>}
+          <label>Rating</label>
+          <div className="mt-2">
+            <StarRating
+              rating={restaurant.rating || 0}
+              onRatingChange={(value) => setRestaurant(prev => ({ ...prev, rating: value }))}
+              size="lg"
+              interactive={true}
+            />
+          </div>
+          {errors.rating && <div className="invalid-feedback d-block">{errors.rating}</div>}
         </div>
 
         <h4>Menu Items</h4>
