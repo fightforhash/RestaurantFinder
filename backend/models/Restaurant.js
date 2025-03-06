@@ -8,17 +8,24 @@ const menuItemSchema = new mongoose.Schema({
   price: { type: Number, min: 0 }
 });
 
+const locationSchema = new mongoose.Schema({
+  address: { type: String },
+  city: { type: String, required: true },
+  district: { type: String }
+});
+
 const restaurantSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  location: {
-    type: { type: String, default: 'Point' },
-    coordinates: [Number]
-  },
+  location: locationSchema,
   rating: { type: Number, min: 0, max: 5 },
   menu: [menuItemSchema]
 });
 
-// Geospatial Index
-restaurantSchema.index({ location: '2dsphere' });
+// Text index for location search
+restaurantSchema.index({ 
+  'location.address': 'text',
+  'location.city': 'text',
+  'location.district': 'text'
+});
 
 module.exports = mongoose.model('Restaurant', restaurantSchema);

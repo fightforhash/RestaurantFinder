@@ -24,18 +24,34 @@ const RestaurantDetails = () => {
   }
 
   return (
-    <div>
-      <h3>{restaurant.name}</h3>
+    <div className="container">
+      <h2>{restaurant.name}</h2>
       <p><strong>Location:</strong> {restaurant.location.coordinates.join(", ")}</p>
-      <p><strong>Rating:</strong> {restaurant.rating}</p>
-      <h4>Menu:</h4>
-      <ul className="list-group">
-        {restaurant.menu.map((item) => (
-          <li key={item._id} className="list-group-item">
-            {item.name} - ${item.price}
-          </li>
-        ))}
-      </ul>
+      <p><strong>Rating:</strong> {restaurant.rating} / 5</p>
+
+      <h4>Menu</h4>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Cuisine</th>
+            <th>Dietary Restrictions</th>
+            <th>Spice Level</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {restaurant.menu.map((item) => (
+            <tr key={item._id}>
+              <td>{item.name}</td>
+              <td>{item.cuisine}</td>
+              <td>{item.dietaryRestrictions.join(", ")}</td>
+              <td>{item.spiceLevel}</td>
+              <td>${item.price}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
