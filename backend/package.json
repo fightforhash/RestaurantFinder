@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend/\r ├── config/\r │   ├── db.js          # Database connection\r │   └── ai.js          # AI service configuration\r ├── controllers/\r │   ├── recController.js # Recommendation logic\r │   └── restController.js # Restaurant search logic\r ├── models/\r │   └── Restaurant.js  # MongoDB schema\r ├── routes/\r │   ├── recRoutes.js   # Recommendation endpoints\r │   └── restRoutes.js  # Restaurant endpoints\r ├── middleware/  \r │   └── errorHandler.js # Error handling\r └── server.js          # Main entry point",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",     
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.12.1",
+    "nodemon": "^3.1.9"
+  }
+}
