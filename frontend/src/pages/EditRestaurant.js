@@ -7,9 +7,12 @@ const EditRestaurant = () => {
   const navigate = useNavigate();
   const [restaurant, setRestaurant] = useState({
     name: "",
-    latitude: "",
-    longitude: "",
-    rating: "",
+    location: {
+      address: "",
+      city: "",
+      district: ""
+    },
+    rating: ""
   });
 
   useEffect(() => {
@@ -21,9 +24,12 @@ const EditRestaurant = () => {
       const res = await axios.get(`http://localhost:5000/api/restaurants/${id}`);
       setRestaurant({
         name: res.data.name,
-        latitude: res.data.location.coordinates[1],
-        longitude: res.data.location.coordinates[0],
-        rating: res.data.rating,
+        location: {
+          address: res.data.location.address || "",
+          city: res.data.location.city,
+          district: res.data.location.district || ""
+        },
+        rating: res.data.rating
       });
     } catch (error) {
       console.error("Error fetching restaurant details", error);
@@ -31,7 +37,19 @@ const EditRestaurant = () => {
   };
 
   const handleChange = (e) => {
-    setRestaurant({ ...restaurant, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name.startsWith('location.')) {
+      const locationField = name.split('.')[1];
+      setRestaurant(prev => ({
+        ...prev,
+        location: {
+          ...prev.location,
+          [locationField]: value
+        }
+      }));
+    } else {
+      setRestaurant(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -39,8 +57,12 @@ const EditRestaurant = () => {
     try {
       await axios.put(`http://localhost:5000/api/restaurants/${id}`, {
         name: restaurant.name,
-        location: { type: "Point", coordinates: [parseFloat(restaurant.longitude), parseFloat(restaurant.latitude)] },
-        rating: parseFloat(restaurant.rating),
+        location: {
+          address: restaurant.location.address,
+          city: restaurant.location.city,
+          district: restaurant.location.district
+        },
+        rating: parseFloat(restaurant.rating)
       });
       navigate("/restaurants");
     } catch (error) {
@@ -54,19 +76,58 @@ const EditRestaurant = () => {
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label>Name</label>
-          <input type="text" className="form-control" name="name" value={restaurant.name} onChange={handleChange} required />
+          <input 
+            type="text" 
+            className="form-control" 
+            name="name" 
+            value={restaurant.name} 
+            onChange={handleChange} 
+            required 
+          />
         </div>
         <div className="mb-3">
-          <label>Latitude</label>
-          <input type="number" className="form-control" name="latitude" value={restaurant.latitude} onChange={handleChange} required />
+          <label>City</label>
+          <input 
+            type="text" 
+            className="form-control" 
+            name="location.city" 
+            value={restaurant.location.city} 
+            onChange={handleChange} 
+            required 
+          />
         </div>
         <div className="mb-3">
-          <label>Longitude</label>
-          <input type="number" className="form-control" name="longitude" value={restaurant.longitude} onChange={handleChange} required />
+          <label>Address</label>
+          <input 
+            type="text" 
+            className="form-control" 
+            name="location.address" 
+            value={restaurant.location.address} 
+            onChange={handleChange}
+          />
+        </div>
+        <div className="mb-3">
+          <label>District</label>
+          <input 
+            type="text" 
+            className="form-control" 
+            name="location.district" 
+            value={restaurant.location.district} 
+            onChange={handleChange}
+          />
         </div>
         <div className="mb-3">
           <label>Rating (0-5)</label>
-          <input type="number" className="form-control" name="rating" value={restaurant.rating} min="0" max="5" onChange={handleChange} required />
+          <input 
+            type="number" 
+            className="form-control" 
+            name="rating" 
+            value={restaurant.rating} 
+            min="0" 
+            max="5" 
+            onChange={handleChange} 
+            required 
+          />
         </div>
         <button type="submit" className="btn btn-warning">Save Changes</button>
       </form>

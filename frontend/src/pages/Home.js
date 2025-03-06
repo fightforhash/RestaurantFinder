@@ -168,7 +168,7 @@ const Home = () => {
               <td>
                 <Link to={`/restaurants/${restaurant._id}`}>{restaurant.name}</Link>
               </td>
-              <td>{restaurant.location.coordinates.join(", ")}</td>
+              <td>{`${restaurant.location.city}, ${restaurant.location.district}, ${restaurant.location.address}`}</td>
               <td>{restaurant.rating}</td>
               <td>{restaurant.menu.map((item) => item.cuisine).join(", ")}</td>
               <td>{restaurant.menu.map((item) => item.dietaryRestrictions.join(", ")).join(", ")}</td>

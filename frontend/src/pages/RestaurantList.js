@@ -31,7 +31,9 @@ const RestaurantList = () => {
   };
 
   const filteredRestaurants = restaurants.filter((restaurant) =>
-    restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())
+    restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    restaurant.location.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    restaurant.location.district.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -43,7 +45,7 @@ const RestaurantList = () => {
           <input
             type="text"
             className="form-control"
-            placeholder="Search for a restaurant..."
+            placeholder="Search by name, city, or district..."
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
@@ -63,7 +65,11 @@ const RestaurantList = () => {
                 <td>
                   <Link to={`/restaurants/${restaurant._id}`}>{restaurant.name}</Link>
                 </td>
-                <td>{restaurant.location.coordinates.join(", ")}</td>
+                <td>
+                  {restaurant.location.city}
+                  {restaurant.location.district && `, ${restaurant.location.district}`}
+                  {restaurant.location.address && ` - ${restaurant.location.address}`}
+                </td>
                 <td>{restaurant.rating}</td>
                 <td>
                   <Link className="btn btn-warning btn-sm mx-2" to={`/edit/${restaurant._id}`}>

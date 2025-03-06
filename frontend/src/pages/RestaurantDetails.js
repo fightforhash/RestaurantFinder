@@ -26,7 +26,7 @@ const RestaurantDetails = () => {
   return (
     <div className="container">
       <h2>{restaurant.name}</h2>
-      <p><strong>Location:</strong> {restaurant.location.coordinates.join(", ")}</p>
+      <p><strong>Location:</strong> {`${restaurant.location.city}, ${restaurant.location.district}, ${restaurant.location.address}`}</p>
       <p><strong>Rating:</strong> {restaurant.rating} / 5</p>
 
       <h4>Menu</h4>
