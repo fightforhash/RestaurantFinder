@@ -134,7 +134,7 @@ const EditRestaurant = () => {
 
   const fetchRestaurantDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/restaurants/${id}`);
+      const res = await axios.get(`https://f4c59nb7-5050.usw2.devtunnels.ms/api/restaurants/${id}`);
       setRestaurant({
         name: res.data.name,
         location: {
@@ -219,7 +219,7 @@ const EditRestaurant = () => {
     e.preventDefault();
     if (validateRestaurant()) {
       try {
-        await axios.put(`http://localhost:5000/api/restaurants/${id}`, {
+        await axios.put(`https://f4c59nb7-5050.usw2.devtunnels.ms/api/restaurants/${id}`, {
           name: restaurant.name,
           location: {
             address: restaurant.location.address,

@@ -13,7 +13,7 @@ const RestaurantList = () => {
 
   const fetchRestaurants = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/restaurants");
+      const res = await axios.get("https://f4c59nb7-5050.usw2.devtunnels.ms/api/restaurants");
       setRestaurants(res.data);
     } catch (error) {
       console.error("Error fetching restaurants", error);
@@ -23,7 +23,7 @@ const RestaurantList = () => {
   const deleteRestaurant = async (id) => {
     if (window.confirm("Are you sure you want to delete this restaurant?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/restaurants/${id}`);
+        await axios.delete(`https://f4c59nb7-5050.usw2.devtunnels.ms/api/restaurants/${id}`);
         setRestaurants(restaurants.filter((restaurant) => restaurant._id !== id));
       } catch (error) {
         console.error("Error deleting restaurant", error);

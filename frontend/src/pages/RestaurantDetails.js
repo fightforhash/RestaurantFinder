@@ -14,7 +14,7 @@ const RestaurantDetails = () => {
 
   const fetchRestaurantDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/restaurants/${id}`);
+      const res = await axios.get(`https://f4c59nb7-5050.usw2.devtunnels.ms/api/restaurants/${id}`);
       setRestaurant(res.data);
       setLoading(false);
     } catch (error) {

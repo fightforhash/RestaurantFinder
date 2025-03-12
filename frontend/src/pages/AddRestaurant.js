@@ -212,7 +212,7 @@ const AddRestaurant = () => {
           }))
         };
         console.log('Sending data to server:', restaurantData);
-        await axios.post("http://localhost:5000/api/restaurants", restaurantData);
+        await axios.post("https://f4c59nb7-5050.usw2.devtunnels.ms/api/restaurants", restaurantData);
         navigate("/restaurants");
       } catch (error) {
         console.error("Error adding restaurant", error);

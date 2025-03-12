@@ -68,7 +68,7 @@ const Home = () => {
 
   const fetchRestaurants = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/restaurants");
+      const res = await axios.get("https://f4c59nb7-5050.usw2.devtunnels.ms/api/restaurants");
       setRestaurants(res.data);
       setFilteredRestaurants(res.data);
     } catch (error) {
