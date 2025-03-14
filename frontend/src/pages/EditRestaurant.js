@@ -219,7 +219,7 @@ const EditRestaurant = () => {
     e.preventDefault();
     if (validateRestaurant()) {
       try {
-        await axios.put(`https://f4c59nb7-5050.usw2.devtunnels.ms/api/restaurants/${id}`, {
+        await axios.patch(`http://localhost:5050/api/restaurants/${id}`, {
           name: restaurant.name,
           location: {
             address: restaurant.location.address,
